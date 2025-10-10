@@ -1,5 +1,6 @@
 import numpy as np
 import joblib
+import datetime
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt, jsonify, request
 from flask import Flask
@@ -8,7 +9,7 @@ app = Flask(__name__)
 users = []
 predictions = []
 next_user_id = 2
-next_post_id = 2
+next_prediction_id = 2
 next_comment_id = 2
 
 app.config["JWT_SECRET_KEY"] = "my_secret_key"
@@ -58,66 +59,26 @@ class User():
         print(f"{self._user_id}, {self._username}, {self._password}, {self._email}")
 
 
-class Post():
-    def __init__(self, user_id, title, body):
-        global next_post_id
-        next_post_id += 1
-        self._post_id = next_post_id
-        self._user_id = user_id
-        self._title = title
-        self._body = body
-        self._comments = []
+class Prediction:
 
-    def get_post_id(self):
-        return f"{self._post_id}"
+    def __init__(self, user_id, prediction):
+        global next_prediction_id
+        next_prediction_id += 1
+        self._prediction_id = next_prediction_id
+        self._created = datetime.datetime.now()
+        self._user_id = user_id
+        self._prediction = prediction
+
+
+    def get_prediction_id(self):
+        return self._prediction_id
 
     def get_user_id(self):
         return f"{self._user_id}"
 
-    def get_title(self):
-        return f"{self._title}"
+    def get_prediction(self):
+        return f"{self._prediction}"
 
-    def get_body(self):
-        return f"{self._body}"
-
-    def get_comments(self):
-        return self._comments
-
-    def get_post(self):
-        return f"Title: {self._title}, Body: {self._body}, Author: {self._user_id}"
-
-    def print_post(self):
-        return jsonify({"Title": self._title, "Body": self._body, "Author": self._user_id})
-
-    @property
-    def comments(self):
-        return self._comments
-
-    @comments.setter
-    def comments(self, comments):
-        self._comments = comments
-
-
-class Comment():
-    def __init__(self, user_id, post_id, body):
-        global next_comment_id
-        next_comment_id += 1
-        self._comment_id = next_comment_id
-        self._post_id = post_id
-        self._user_id = user_id
-        self._body = body
-
-    def get_comment_id(self):
-        return f"{self._comment_id}"
-
-    def get_post_id(self):
-        return f"{self._post_id}"
-
-    def get_user_id(self):
-        return f"{self.user_id}"
-
-    def get_body(self):
-        return f"{self._body}"
 
 
 current_user = User(None, None, None)
