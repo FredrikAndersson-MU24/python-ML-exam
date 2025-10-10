@@ -1,9 +1,10 @@
+import flask
 import numpy as np
 import joblib
 import datetime
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
-from flask_bcrypt import Bcrypt, jsonify, request
-from flask import Flask
+from flask_bcrypt import Bcrypt
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 users = []
