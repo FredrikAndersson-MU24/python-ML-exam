@@ -178,19 +178,14 @@ def new_prediction():
 
 # Read
 @app.route('/api/predict', methods=['GET'])
-def predictions_read():
+def get_predictions():
     predictions_list = []
     for prediction in predictions:
-        list_of_comments = []
-        for comment in prediction.get_comments():
-            list_of_comments.append({"body": comment.get_body()})
         predictions_list.append({
-            "post_id": prediction.get_post_id(),
-            "author_id": prediction.get_user_id(),
-            "title": prediction.get_title(),
-            "body": prediction.get_body(),
-            "comments": list_of_comments})
-    return jsonify({"posts": predictions_list}), 200
+            "prediction_id": prediction.get_prediction_id(),
+            "prediction": prediction.get_prediction(),
+            "user_id": prediction.get_user_id()})
+    return jsonify({"predictions": predictions_list}), 200
 
 
 if __name__ == ('__main__'):
