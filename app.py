@@ -114,15 +114,14 @@ def update_comments(post, new_comment):
 
 
 @app.route('/api/auth/register', methods=['POST'])
-def user_register():
+def register():
     username = request.json.get("username")
     password = request.json.get("password")
-    email = request.json.get("email")
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
-    new_user = User(username, hashed_password, email)
+    new_user = User(username, hashed_password)
     users.append(new_user)
     get_all_users()
-    return jsonify({"message": "User added succesfully"}, 201)
+    return jsonify({"message": "User added successfully"}, 201)
 
 # Login
 
