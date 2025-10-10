@@ -127,7 +127,7 @@ def register():
 
 
 @app.route('/api/auth/login', methods=['POST'])
-def user_login():
+def login():
     username = request.json.get("username")
     password = request.json.get("password")
     stored_hashed_password = get_stored_password_by_username(username)
