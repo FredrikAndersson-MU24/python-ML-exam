@@ -27,18 +27,7 @@ except FileNotFoundError as err:
 
 # 'GenHlth', 'HighBP', 'BMI', 'HighChol', 'Age', 'DiffWalk', 'PhysHlth', 'HeartDiseaseorAttack', 'PhysActivity', 'Education','Income'
 
-prediction = np.array(
-    [[3, 1, 26, 0, 4, 0, 30, 0, 1, 6, 8],
-     [3, 1, 26, 1, 12, 0, 0, 0, 0, 6, 8],
-     [1, 0, 26, 0, 13, 0, 10, 0, 1, 6, 8]])
-
-predict = loaded_model.predict(prediction)
-
-
-print(predict)
-
-
-class User():
+class User:
     def __init__(self, username, password, email):
         global next_user_id
         next_user_id += 1
