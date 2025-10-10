@@ -28,13 +28,12 @@ except FileNotFoundError as err:
 # 'GenHlth', 'HighBP', 'BMI', 'HighChol', 'Age', 'DiffWalk', 'PhysHlth', 'HeartDiseaseorAttack', 'PhysActivity', 'Education','Income'
 
 class User:
-    def __init__(self, username, password, email):
+    def __init__(self, username, password):
         global next_user_id
         next_user_id += 1
         self._user_id = next_user_id
         self._username = username
         self._password = password
-        self._email = email
 
     def get_user_id(self):
         return self._user_id
@@ -46,7 +45,7 @@ class User:
         return self._password
 
     def print_user(self):
-        print(f"{self._user_id}, {self._username}, {self._password}, {self._email}")
+        print(f"{self._user_id}, {self._username}, {self._password}")
 
 
 class Prediction:
@@ -71,11 +70,11 @@ class Prediction:
 
 
 
-current_user = User(None, None, None)
+current_user = User(None, None)
 liz = User(
-    "liz", "$2b$12$v1/77VLBqAg9dz7tiXF70uzIr0PitZE/mDHIvgbTgh8uGCrXMFYFa", "liz@ned.ned")
+    "liz", "liz")
 ned = User(
-    "ned", "$2b$12$T8d3jzvj48f19U2ywHogX.yDWcV3aob5PLYZsB6foieav.SUAnrwi", "ned@ned.ned")
+    "ned", "ned")
 users.append(liz)
 users.append(ned)
 
@@ -96,18 +95,6 @@ def get_user_id_by_user(username):
     for user in users:
         if user.get_username() == username:
             return user.get_user_id()
-
-
-def find_post_by_id(post_id):
-    for post in posts:
-        if post.get_post_id() == post_id:
-            return post
-
-
-def update_comments(post, new_comment):
-    updated_comments = post.get_comments()
-    updated_comments.append(new_comment)
-    post.comments = updated_comments
 
 # USER
 # Register
@@ -188,5 +175,5 @@ def get_predictions():
     return jsonify({"predictions": predictions_list}), 200
 
 
-if __name__ == ('__main__'):
+if __name__ == '__main__':
     app.run(debug=True)
