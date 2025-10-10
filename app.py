@@ -142,14 +142,38 @@ def login():
 
 @app.route('/api/predict', methods=['POST'])
 @jwt_required()
-def post_create():
-    title = request.json.get("title")
-    body = request.json.get("body")
+def new_prediction():
     current_user = get_jwt_identity()
     user_id = get_user_id_by_user(current_user)
-    new_post = Post(user_id, title, body)
-    posts.append(new_post)
-    return jsonify({"title": new_post.get_title(), "body": new_post.get_body(), "author": get_jwt_identity(), "user id": user_id}, 200)
+    gen_hlth = request.json.get("gen_hlth")
+    high_bp = request.json.get("high_bp")
+    bmi = request.json.get("bmi")
+    high_chol = request.json.get("high_chol")
+    age = request.json.get("age")
+    diff_walk = request.json.get("diff_walk")
+    phys_hlth = request.json.get("phys_hlth")
+    heart_disease_or_attack = request.json.get("heart_disease_or_attack")
+    phys_activity = request.json.get("phys_activity")
+    education = request.json.get("education")
+    income = request.json.get("income")
+
+    prediction = loaded_model.predict(np.array([[gen_hlth,
+                                      high_bp,
+                                      bmi,
+                                      high_chol,
+                                      age,
+                                      diff_walk,
+                                      phys_hlth,
+                                      heart_disease_or_attack,
+                                      phys_activity,
+                                      education,
+                                      income]]))
+    print(prediction)
+    new_prediction = Prediction(user_id, int(prediction[0]))
+    predictions.append(new_prediction)
+    return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
+                          "prediction": new_prediction.get_prediction(),
+                          "user_id": new_prediction.get_user_id()})
 
 
 # Read
