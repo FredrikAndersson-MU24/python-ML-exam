@@ -122,19 +122,47 @@ def login():
 @app.route('/api/predict', methods=['POST'])
 @jwt_required()
 def new_prediction():
+    global current_user
+    global predictions
+    errors =[]
     current_user = get_jwt_identity()
     user_id = get_user_id_by_user(current_user)
     gen_hlth = request.json.get("gen_hlth")
+    if gen_hlth is None or gen_hlth < 1 or gen_hlth > 5:
+        errors.append("gen_hlth must be between 1 and 5")
     high_bp = request.json.get("high_bp")
+    if high_bp is None or high_bp != 0 and high_bp != 1:
+        errors.append("high_bp must be 0 if false or 1 if true")
     bmi = request.json.get("bmi")
+    if bmi is None or bmi < 1 or bmi > 50:
+        errors.append("bmi must be between 1 and 50")
     high_chol = request.json.get("high_chol")
+    if high_chol is None or high_chol != 0 and high_chol != 1:
+        errors.append("high_chol must be 0 if false or 1 if true")
     age = request.json.get("age")
+    if age is None or age < 1 or age > 13:
+        errors.append("age must be between 1 and 13")
     diff_walk = request.json.get("diff_walk")
+    if diff_walk is None or diff_walk != 0 and diff_walk != 1:
+        errors.append("diff_walk must be 0 if false or 1 if true")
     phys_hlth = request.json.get("phys_hlth")
+    if phys_hlth is None or phys_hlth < 0 or phys_hlth > 30:
+        errors.append("phys_hlth must be between 0 and 30")
     heart_disease_or_attack = request.json.get("heart_disease_or_attack")
+    if heart_disease_or_attack is None or heart_disease_or_attack != 0 and heart_disease_or_attack != 1:
+        errors.append(("heart_disease_or_attack must be 0 if false or 1 if true"))
     phys_activity = request.json.get("phys_activity")
+    if phys_activity is None or phys_activity != 0 and phys_activity != 1:
+        errors.append(("phys_activity must be 0 if false or 1 if true"))
     education = request.json.get("education")
+    if education is None or education < 1 or education > 6:
+        errors.append(("education must be between 1 and 6"))
     income = request.json.get("income")
+    if income is None or income < 1 or income > 8:
+        errors.append(("income must be between 1 and 8"))
+
+    if len(errors) > 0:
+        return flask.jsonify({"errors": errors}), 400
 
     prediction = loaded_model.predict(np.array([[gen_hlth,
                                       high_bp,
