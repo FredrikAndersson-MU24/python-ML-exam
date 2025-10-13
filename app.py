@@ -11,9 +11,8 @@ users = []
 predictions = []
 next_user_id = 2
 next_prediction_id = 2
-next_comment_id = 2
 
-app.config["JWT_SECRET_KEY"] = "my_secret_key"
+app.config["JWT_SECRET_KEY"] = "my_not_so_secret_key"
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
 auth = ""
@@ -175,7 +174,6 @@ def new_prediction():
                                       phys_activity,
                                       education,
                                       income]]))
-    print(prediction)
     new_prediction = Prediction(user_id, int(prediction[0]))
     predictions.append(new_prediction)
     return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
