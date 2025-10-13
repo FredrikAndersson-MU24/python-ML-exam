@@ -45,7 +45,6 @@ class User:
     def print_user(self):
         print(f"{self._user_id}, {self._username}, {self._password}")
 
-
 class Prediction:
 
     def __init__(self, user_id, prediction):
@@ -55,7 +54,6 @@ class Prediction:
         self._created = datetime.datetime.now()
         self._user_id = user_id
         self._prediction = prediction
-
 
     def get_prediction_id(self):
         return self._prediction_id
