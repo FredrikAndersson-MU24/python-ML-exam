@@ -25,8 +25,6 @@ try:
 except FileNotFoundError as err:
     print(f"Error loading model: {err}")
 
-# 'GenHlth', 'HighBP', 'BMI', 'HighChol', 'Age', 'DiffWalk', 'PhysHlth', 'HeartDiseaseorAttack', 'PhysActivity', 'Education','Income'
-
 class User:
     def __init__(self, username, password):
         global next_user_id
@@ -78,12 +76,10 @@ ned = User(
 users.append(liz)
 users.append(ned)
 
-
 def get_all_users():
     global users
     for user in users:
         user.print_user()
-
 
 def get_stored_password_by_username(username):
     for user in users:
@@ -99,7 +95,6 @@ def get_user_id_by_user(username):
 # USER
 # Register
 
-
 @app.route('/api/auth/register', methods=['POST'])
 def register():
     username = request.json.get("username")
@@ -112,7 +107,6 @@ def register():
 
 # Login
 
-
 @app.route('/api/auth/login', methods=['POST'])
 def login():
     username = request.json.get("username")
@@ -122,7 +116,6 @@ def login():
         return jsonify({"error": "incorrect password"}, 400)
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
-
 
 # POSTS
 # Create
@@ -161,7 +154,6 @@ def new_prediction():
     return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
                           "prediction": new_prediction.get_prediction(),
                           "user_id": new_prediction.get_user_id()})
-
 
 # Read
 @app.route('/api/predict', methods=['GET'])
