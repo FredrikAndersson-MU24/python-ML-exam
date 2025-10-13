@@ -64,7 +64,8 @@ class Prediction:
     def get_prediction(self):
         return f"{self._prediction}"
 
-
+    def get_created(self):
+        return f"{self._created}"
 
 current_user = User(None, None)
 liz = User(
