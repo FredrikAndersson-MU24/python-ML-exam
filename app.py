@@ -90,18 +90,27 @@ def get_user_id_by_user(username):
         if user.get_username() == username:
             return user.get_user_id()
 
+def check_if_user_exists(username):
+    for user in users:
+        if user.get_username().lower() == username.lower():
+            return None
+    return username
+
 # USER
 # Register
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
-    username = request.json.get("username")
+    username = check_if_user_exists(request.json.get("username"))
+    if username is None:
+        return jsonify({"error": "username already exists"}), 400
+    if len(username) < 8 or len(username) > 32:
+        return jsonify({"error": "username must be 8-32 characters"}), 400
     password = request.json.get("password")
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     new_user = User(username, hashed_password)
     users.append(new_user)
-    get_all_users()
-    return jsonify({"message": "User added successfully"}, 201)
+    return jsonify({"message": "User added successfully"}), 201
 
 # Login
 
