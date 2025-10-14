@@ -95,6 +95,13 @@ def check_if_user_exists(username):
         if user.get_username().lower() == username.lower():
             return None
     return username
+def valid_password(password):
+    if password is None or len(password) < 8 or len(password) > 32:
+        return None
+    reg = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%])[A-Za-z\d@$#%]{8,32}$"
+    pattern = re.compile(reg)
+    match_pattern = re.search(pattern, password)
+    return match_pattern
 
 # USER
 # Register
@@ -103,10 +110,12 @@ def check_if_user_exists(username):
 def register():
     username = check_if_user_exists(request.json.get("username"))
     if username is None:
+    password = request.json.get("password")
         return jsonify({"error": "username already exists"}), 400
     if len(username) < 8 or len(username) > 32:
         return jsonify({"error": "username must be 8-32 characters"}), 400
-    password = request.json.get("password")
+    if not valid_password(password):
+        return jsonify({"error": "password must be 8-32 characters and contain at least one uppercase letter, one lowercase letter, one number, and one special character"}), 400
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     new_user = User(username, hashed_password)
     users.append(new_user)
