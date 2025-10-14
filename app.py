@@ -18,7 +18,7 @@ jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
 auth = ""
 
-model_path = 'ML_model/diabetes_random_forest_classifier_model.joblib'
+model_path = 'ML_model/diabetes_random_forest_classifier.joblib'
 try:
     loaded_model = joblib.load(model_path)
     print("Model loaded successfully")
