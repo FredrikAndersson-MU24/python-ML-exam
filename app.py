@@ -2,6 +2,7 @@ import flask
 import numpy as np
 import joblib
 import datetime
+import re
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 from flask import Flask, jsonify, request
@@ -93,8 +94,9 @@ def get_user_id_by_user(username):
 def check_if_user_exists(username):
     for user in users:
         if user.get_username().lower() == username.lower():
-            return None
-    return username
+            return True
+    return False
+
 def valid_password(password):
     if password is None or len(password) < 8 or len(password) > 32:
         return None
@@ -108,9 +110,9 @@ def valid_password(password):
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
-    username = check_if_user_exists(request.json.get("username"))
-    if username is None:
+    username = request.json.get("username")
     password = request.json.get("password")
+    if username_exists(username):
         return jsonify({"error": "username already exists"}), 400
     if len(username) < 8 or len(username) > 32:
         return jsonify({"error": "username must be 8-32 characters"}), 400
