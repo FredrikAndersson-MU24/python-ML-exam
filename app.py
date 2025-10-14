@@ -91,7 +91,7 @@ def get_user_id_by_user(username):
         if user.get_username() == username:
             return user.get_user_id()
 
-def check_if_user_exists(username):
+def username_exists(username):
     for user in users:
         if user.get_username().lower() == username.lower():
             return True
