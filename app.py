@@ -158,8 +158,8 @@ def new_prediction():
     if high_bp is None or high_bp != 0 and high_bp != 1:
         errors.append("high_bp must be 0 if false or 1 if true")
     bmi = request.json.get("bmi")
-    if bmi is None or bmi < 1 or bmi > 50:
-        errors.append("bmi must be between 1 and 50")
+    if bmi is None or bmi < 1 or bmi > 100:
+        errors.append("bmi must be between 1 and 100")
     high_chol = request.json.get("high_chol")
     if high_chol is None or high_chol != 0 and high_chol != 1:
         errors.append("high_chol must be 0 if false or 1 if true")
