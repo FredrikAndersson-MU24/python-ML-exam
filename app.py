@@ -49,13 +49,14 @@ class User:
 
 class Prediction:
 
-    def __init__(self, user_id, prediction):
+    def __init__(self, user_id, result, type):
         global next_prediction_id
         next_prediction_id += 1
         self._prediction_id = next_prediction_id
         self._created = datetime.datetime.now()
         self._user_id = user_id
-        self._prediction = prediction
+        self._result = result
+        self._type = type
 
     def get_prediction_id(self):
         return self._prediction_id
@@ -63,12 +64,14 @@ class Prediction:
     def get_user_id(self):
         return f"{self._user_id}"
 
-    def get_prediction(self):
-        return f"{self._prediction}"
+    def get_result(self):
+        return f"{self._result}"
 
     def get_created(self):
         return f"{self._created}"
 
+    def get_type(self):
+        return f"{self._type}"
 
 
 current_user = User(None, None)
@@ -214,7 +217,8 @@ def new_prediction():
     new_prediction = Prediction(user_id, int(prediction[0]))
     predictions.append(new_prediction)
     return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
-                          "prediction": new_prediction.get_prediction(),
+                          "type": new_prediction.get_type(),
+                          "result": new_prediction.get_result(),
                           "user_id": new_prediction.get_user_id()})
 
 
