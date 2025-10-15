@@ -11,6 +11,12 @@ Uppgiften består av fyra huvudsakliga faser:
 ---
 
 ## Projektbeskrivning
+Projektet började med en Jupyter Lab Notebook där ett dataset har valdes för att bygga en klassificeringsmodell med 
+syftet att kunna klassificera om personer bedöms ha risk för att utveckla diabetes. Tre olika klassificeringsmodeller har
+tränats, optimerats och utvärderats för att finna den enligt mig mest lämpliga, där fokus har varit att så långt som 
+möjligt hitta personer i riskzon utan att behöva kompromissa för mycket med precisionen. Modellen har sedan exporterats 
+för att kunna användas i ett REST API utvecklat i Python med Flask.
+Nedan följer en beskrivning av REST API:et. Läs mer om valt dataset och modeller i [Jupyter Lab Notebook](/notebook/diabetes.ipynb).
 
 
 ---
@@ -19,9 +25,10 @@ Uppgiften består av fyra huvudsakliga faser:
 
 ### Sätta upp en Python-miljö och installera nödvändiga Python-paket
 
-Skapa en Python-miljö.  
-De paket som används i projektet är specificerade i `requirements.txt`.  
-Installera nödvändiga paket med kommandot:  
+Klona projektet.
+Sätt upp en Python-miljö.  
+De paket som krävs för projektet finns i `requirements.txt`.  
+Installera nödvändiga paket med kommandot  
 ```
 pip install -r requirements.txt
 ```
@@ -30,11 +37,13 @@ pip install -r requirements.txt
 
 ## REST API
 
-Interaktion med REST API:et kan ske med nedanstående endpoints.
+Begäran om nya förutsägelser kräver JWT Token, vilket i detta fall innebär att användaren måste vara registrerad och
+inloggad för att kunna nå respektive endpiont.
+Interaktion med REST API:et sker med nedanstående endpoints.
 
 
-### Users ("/api/auth")
-Registrera och logga in användare
+### Autentisering ("/api/auth")
+Registrera och logga in användare.
 ````json
 {
    "username": "{4-16 characters}",
@@ -48,7 +57,7 @@ Registrera och logga in användare
 | POST     | Logga in användare   | `/login`    |                 | `JWT Token` |
 
 
-### Förutsägelse ("/api/prediction")
+### Förutsägelse ("/api/predict")
 Syntax för att begära en ny förutsägelse. 
 ````json
 {   "gen_hlth": {1-5}, 
@@ -64,15 +73,21 @@ Syntax för att begära en ny förutsägelse.
     "income": {1-8}
     }
 ````
-| Kommando | Operation                                       | Endpoint | Begränsningar   | Returnerar          |
-|----------|-------------------------------------------------|----------|-----------------|---------------------|
-| POST     | Begär ny förutsägelse                           |          | JWT Token krävs | Prediction som JSON |
-| GET      | Hämta alla förutsägelser för inloggad användare |          | JWT Token krävs | ``                  |
+| Kommando | Operation                                       | Endpoint | Begränsningar   | Returnerar                |
+|----------|-------------------------------------------------|----------|-----------------|---------------------------|
+| POST     | Begär ny förutsägelse                           |          | JWT Token krävs | Klassificering som JSON   |
+| GET      | Hämta alla förutsägelser för inloggad användare |          | JWT Token krävs | Lista av klassificeringar |
 
 ---
 
-## Abilities used for this assignment
-### Technical
+## Reflektion
+
+Projektet gav mig möjlighet att kombinera teknisk problemlösning med analytiskt tänkande för att optimera
+maskininlärningsmodeller och förbättra deras prestanda samt implementera modeller i ett REST API. Det gav mig insikter i
+min förmåga att analysera problem och statistiska samband samt vikten av att kunna ta ett steg tillbaka för att sedan
+ta sig an problemet från ett annat perspektiv och med ny energi.
+
+### Tekniska färdigheter
 - Python 
    - Flask
 - Jupyter Lab
@@ -84,11 +99,12 @@ Syntax för att begära en ny förutsägelse.
     - Modellträning
     - Modellutvärdering
 - Git
-- Dokumentation
+- GitHub
 - Jetbrains PyCharm
 - Postman
 
-### Soft
+### Mjuka färdigheter
 - Problemlösning
-- Analytisk förmåga
+- Analytiskt tänkande
 - Struktur
+- Presentation
