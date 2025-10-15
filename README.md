@@ -38,7 +38,7 @@ pip install -r requirements.txt
 ## REST API
 
 Begäran om nya förutsägelser kräver JWT Token, vilket i detta fall innebär att användaren måste vara registrerad och
-inloggad för att kunna nå respektive endpiont.
+inloggad för att kunna nå respektive endpoint.
 Interaktion med REST API:et sker med nedanstående endpoints.
 
 
@@ -46,19 +46,19 @@ Interaktion med REST API:et sker med nedanstående endpoints.
 Registrera och logga in användare.
 ````json
 {
-   "username": "{4-16 characters}",
-   "password": "{4-16 characters}"
+   "username": "{8-32 characters}",
+   "password": "{8-32 characters}"
 }
 ````
 
-| Kommando | Operation            | Endpoint    | Restrictions    | Returnerar  |
-|----------|----------------------|-------------|-----------------|-------------|
-| POST     | Registrera användare | `/register` | 4-16 characters |             |
-| POST     | Logga in användare   | `/login`    |                 | `JWT Token` |
+| Kommando | Operation            | Endpoint    | Begränsningar           | Returnerar  |
+|----------|----------------------|-------------|-------------------------|-------------|
+| POST     | Registrera användare | `/register` | 8-32 tecken, unikt      |             |
+| POST     | Logga in användare   | `/login`    | 8-32 tecken, teckenkrav | `JWT Token` |
 
 
 ### Förutsägelse ("/api/predict")
-Syntax för att begära en ny förutsägelse. 
+Syntax för att begära en ny klassificering. 
 ````json
 {   "gen_hlth": {1-5}, 
     "high_bp": {0/1},
@@ -73,10 +73,10 @@ Syntax för att begära en ny förutsägelse.
     "income": {1-8}
     }
 ````
-| Kommando | Operation                                       | Endpoint | Begränsningar   | Returnerar                |
-|----------|-------------------------------------------------|----------|-----------------|---------------------------|
-| POST     | Begär ny förutsägelse                           |          | JWT Token krävs | Klassificering som JSON   |
-| GET      | Hämta alla förutsägelser för inloggad användare |          | JWT Token krävs | Lista av klassificeringar |
+| Kommando | Operation                                       | Endpoint | Begränsningar   | Returnerar                         |
+|----------|-------------------------------------------------|----------|-----------------|------------------------------------|
+| POST     | Begär ny förutsägelse                           |          | JWT Token krävs | Klassificering som JSON            |
+| GET      | Hämta alla förutsägelser för inloggad användare |          | JWT Token krävs | Lista av klassificeringar som JSON |
 
 ---
 
