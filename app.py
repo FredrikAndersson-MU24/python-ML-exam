@@ -122,7 +122,7 @@ def valid_password(password):
     match_pattern = re.search(pattern, password)
     return match_pattern
 
-# USER
+# Authenticate
 # Register
 
 
@@ -156,7 +156,7 @@ def login():
     access_token = create_access_token(identity=username)
     return jsonify(access_token=access_token)
 
-# POSTS
+# Predict
 # Create
 
 
