@@ -25,6 +25,7 @@ try:
 except FileNotFoundError as err:
     print(f"Error loading model: {err}")
 
+
 class User:
     def __init__(self, username, password):
         global next_user_id
@@ -44,6 +45,7 @@ class User:
 
     def print_user(self):
         print(f"{self._user_id}, {self._username}, {self._password}")
+
 
 class Prediction:
 
@@ -67,6 +69,8 @@ class Prediction:
     def get_created(self):
         return f"{self._created}"
 
+
+
 current_user = User(None, None)
 liz = User(
     "liz", "liz")
@@ -75,10 +79,12 @@ ned = User(
 users.append(liz)
 users.append(ned)
 
+
 def get_all_users():
     global users
     for user in users:
         user.print_user()
+
 
 def get_stored_password_by_username(username):
     for user in users:
@@ -91,16 +97,19 @@ def get_user_id_by_user(username):
         if user.get_username() == username:
             return user.get_user_id()
 
+
 def username_exists(username):
     for user in users:
         if user.get_username().lower() == username.lower():
             return True
     return False
 
+
 def valid_username(username):
     if username is None or len(username) < 8 or len(username) > 32:
         return False
     return True
+
 
 def valid_password(password):
     if password is None or len(password) < 8 or len(password) > 32:
@@ -112,6 +121,7 @@ def valid_password(password):
 
 # USER
 # Register
+
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
@@ -130,6 +140,7 @@ def register():
 
 # Login
 
+
 @app.route('/api/auth/login', methods=['POST'])
 def login():
     username = request.json.get("username")
@@ -143,7 +154,8 @@ def login():
 # POSTS
 # Create
 
-@app.route('/api/predict', methods=['POST'])
+
+@app.route('/api/predict/classification', methods=['POST'])
 @jwt_required()
 def new_prediction():
     global current_user
@@ -204,6 +216,8 @@ def new_prediction():
     return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
                           "prediction": new_prediction.get_prediction(),
                           "user_id": new_prediction.get_user_id()})
+
+
 
 # Read
 @app.route('/api/predict', methods=['GET'])
