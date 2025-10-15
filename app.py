@@ -242,10 +242,10 @@ def new_prediction():
     predict = loaded_model.predict(features)
     classification = Prediction(user_id, int(predict[0]), "classification")
     predictions.append(classification)
-    return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
-                          "type": new_prediction.get_type(),
-                          "result": new_prediction.get_result(),
-                          "user_id": new_prediction.get_user_id()})
+    return flask.jsonify({"prediction_id": classification.get_prediction_id(),
+                          "type": classification.get_type(),
+                          "result": classification.get_result(),
+                          "user_id": classification.get_user_id()})
 
 
 @app.route('/api/predict/probability', methods=['POST'])
