@@ -280,7 +280,7 @@ def new_proba_prediction():
                                       phys_activity,
                                       education,
                                       income]]))[:,1][0]
-    probability = Prediction(user_id, round((prediction * 100), 2), "probability")
+    probability = Prediction(user_id, round((predict * 100), 2), "probability")
     predictions.append(probability)
     return flask.jsonify({"prediction_id": probability.get_prediction_id(),
                           "type": probability.get_type(),
