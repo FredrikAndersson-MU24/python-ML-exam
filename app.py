@@ -218,7 +218,7 @@ def login():
 
 @app.route('/api/predict/classification', methods=['POST'])
 @jwt_required()
-def new_prediction():
+def predict_classification():
     global current_user
     global predictions
     current_user = get_jwt_identity()
@@ -250,7 +250,7 @@ def new_prediction():
 
 @app.route('/api/predict/probability', methods=['POST'])
 @jwt_required()
-def new_proba_prediction():
+def predict_probability():
     global current_user
     global predictions
     current_user = get_jwt_identity()
