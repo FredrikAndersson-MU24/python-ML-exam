@@ -230,7 +230,8 @@ def get_predictions():
     for prediction in predictions:
         predictions_list.append({
             "prediction_id": prediction.get_prediction_id(),
-            "prediction": int(prediction.get_prediction()),
+            "type": prediction.get_type(),
+            "result": prediction.get_result(),
             "user_id": prediction.get_user_id(),
             "created": prediction.get_created()})
     return jsonify({"predictions": predictions_list}), 200
