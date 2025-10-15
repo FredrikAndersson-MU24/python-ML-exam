@@ -148,6 +148,8 @@ def register():
 def login():
     username = request.json.get("username")
     password = request.json.get("password")
+    if not username_exists(username):
+        return jsonify({"error": "username does not exist"}), 400
     stored_hashed_password = get_stored_password_by_username(username)
     if not bcrypt.check_password_hash(stored_hashed_password, password):
         return jsonify({"error": "incorrect password"}, 400)
