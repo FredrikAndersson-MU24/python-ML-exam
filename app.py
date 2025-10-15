@@ -205,7 +205,7 @@ def new_prediction():
     if len(errors) > 0:
         return flask.jsonify({"errors": errors}), 400
 
-    prediction = loaded_model.predict(np.array([[gen_hlth,
+    predict = loaded_model.predict(np.array([[gen_hlth,
                                       high_bp,
                                       bmi,
                                       high_chol,
@@ -216,8 +216,8 @@ def new_prediction():
                                       phys_activity,
                                       education,
                                       income]]))
-    new_prediction = Prediction(user_id, int(prediction[0]))
-    predictions.append(new_prediction)
+    classification = Prediction(user_id, int(predict[0]), "classification")
+    predictions.append(classification)
     return flask.jsonify({"prediction_id": new_prediction.get_prediction_id(),
                           "type": new_prediction.get_type(),
                           "result": new_prediction.get_result(),
