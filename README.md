@@ -11,8 +11,8 @@ Uppgiften består av fyra huvudsakliga faser:
 ---
 
 ## Projektbeskrivning
-Projektet började med en Jupyter Lab Notebook där ett dataset har valdes för att bygga en klassificeringsmodell med 
-syftet att kunna klassificera om personer bedöms ha risk för att utveckla diabetes. Tre olika klassificeringsmodeller har
+Projektet började med en Jupyter Lab Notebook där ett dataset valdes för att bygga en klassificeringsmodell med 
+syfte att kunna klassificera om personer bedöms ha risk för att utveckla diabetes. Tre olika klassificeringsmodeller har
 tränats, optimerats och utvärderats för att finna den enligt mig mest lämpliga, där fokus har varit att så långt som 
 möjligt hitta personer i riskzon utan att behöva kompromissa för mycket med precisionen. Modellen har sedan exporterats 
 för att kunna användas i ett REST API utvecklat i Python med Flask.
@@ -25,7 +25,7 @@ Nedan följer en beskrivning av REST API:et. Läs mer om valt dataset och modell
 
 ### Sätta upp en Python-miljö och installera nödvändiga Python-paket
 
-Klona projektet.
+Klona projektet.  
 Sätt upp en Python-miljö.  
 De paket som krävs för projektet finns i `requirements.txt`.  
 Installera nödvändiga paket med kommandot  
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 ## REST API
 
-Begäran om nya förutsägelser kräver JWT Token, vilket i detta fall innebär att användaren måste vara registrerad och
+Begäran om nya förutsägelser kräver JWT Token, vilket innebär att användaren måste vara registrerad och
 inloggad för att kunna nå respektive endpoint.
 Interaktion med REST API:et sker med nedanstående endpoints.
 
@@ -73,10 +73,10 @@ Syntax för att begära en ny klassificering.
     "income": {1-8}
     }
 ````
-| Kommando | Operation                                       | Endpoint | Begränsningar   | Returnerar                         |
-|----------|-------------------------------------------------|----------|-----------------|------------------------------------|
-| POST     | Begär ny förutsägelse                           |          | JWT Token krävs | Klassificering som JSON            |
-| GET      | Hämta alla förutsägelser för inloggad användare |          | JWT Token krävs | Lista av klassificeringar som JSON |
+| Kommando | Operation                | Endpoint | Begränsningar   | Returnerar                         |
+|----------|--------------------------|----------|-----------------|------------------------------------|
+| POST     | Begär ny förutsägelse    |          | JWT Token krävs | Klassificering som JSON            |
+| GET      | Hämta alla förutsägelser |          | JWT Token krävs | Lista av klassificeringar som JSON |
 
 ---
 
