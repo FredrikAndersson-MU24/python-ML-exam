@@ -42,23 +42,30 @@ inloggad för att kunna nå respektive endpoint.
 Interaktion med REST API:et sker med nedanstående endpoints.
 
 
-### Autentisering ("/api/auth")
+### Autentisering (`/api/auth`)
 Registrera och logga in användare.
 ````json
 {
-   "username": "{8-32 characters}",
-   "password": "{8-32 characters}"
+  "username": "{8-32 characters}",
+  "password": "{8-32 characters}"
+}
+````
+Logga in med hårdkodad användare.
+````json
+{
+  "username": "MaxLatency",
+  "password": "100%Ping5ms"
 }
 ````
 
-| Kommando | Operation            | Endpoint    | Begränsningar           | Returnerar  |
-|----------|----------------------|-------------|-------------------------|-------------|
-| POST     | Registrera användare | `/register` | 8-32 tecken, unikt      |             |
-| POST     | Logga in användare   | `/login`    | 8-32 tecken, teckenkrav | `JWT Token` |
+| Kommando | Operation            | Endpoint    | Begränsningar                                        | Returnerar  |
+|----------|----------------------|-------------|------------------------------------------------------|-------------|
+| POST     | Registrera användare | `/register` | 8-32 tecken, unikt användarnamn, teckenkrav lösenord |             |
+| POST     | Logga in användare   | `/login`    | 8-32 tecken                                          | `JWT Token` |
 
 
-### Förutsägelse ("/api/predict")
-Syntax för att begära en ny klassificering. 
+### Förutsägelse (`/api/predict`)
+Syntax för att begära en ny förutsägelse. 
 ````json
 {   "gen_hlth": {1-5}, 
     "high_bp": {0/1},
@@ -73,10 +80,32 @@ Syntax för att begära en ny klassificering.
     "income": {1-8}
     }
 ````
-| Kommando | Operation                | Endpoint | Begränsningar   | Returnerar                         |
-|----------|--------------------------|----------|-----------------|------------------------------------|
-| POST     | Begär ny förutsägelse    |          | JWT Token krävs | Klassificering som JSON            |
-| GET      | Hämta alla förutsägelser |          | JWT Token krävs | Lista av klassificeringar som JSON |
+| Kommando | Operation                         | Endpoint          | Begränsningar   | Returnerar                         |
+|----------|-----------------------------------|-------------------|-----------------|------------------------------------|
+| POST     | Begär ny klassificering           | `/classification` | JWT Token krävs | Klassificering (JSON)              |
+| POST     | Begär ny sannolikhetsförutsägelse | `/probability`    | JWT Token krävs | Sannolikhetsuppskattning i %(JSON) |
+| GET      | Hämta alla förutsägelser          |                   |                 | Lista av förutsägelser (JSON)      |
+
+Exempel på svar.
+- Klassificering
+```json
+{
+    "prediction_id": 3,
+    "prediction_type": "classification",
+    "result": 0,
+    "user_id": 4
+}
+```
+
+- Sannolikhetsuppskattning
+```json
+{
+    "prediction_id": 4,
+    "prediction_type": "probability",
+    "result": 46.13,
+    "user_id": 4
+}
+```
 
 ---
 
