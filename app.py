@@ -75,12 +75,9 @@ class Prediction:
 
 
 current_user = User(None, None)
-liz = User(
-    "liz", "liz")
-ned = User(
-    "ned", "ned")
-users.append(liz)
-users.append(ned)
+maxLatency = User(
+    "MaxLatency", "$2b$12$1H/0kuEaAaHaRdQO7LAxg.6fmEBjiyJ7xadsxf9taN9qdZoi8y6qm")
+users.append(maxLatency)
 
 
 def get_all_users():
