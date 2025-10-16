@@ -49,29 +49,29 @@ class User:
 
 class Prediction:
 
-    def __init__(self, user_id, result, type):
+    def __init__(self, user_id, result, prediction_type):
         global next_prediction_id
         next_prediction_id += 1
         self._prediction_id = next_prediction_id
-        self._created = datetime.datetime.now()
+        self._created = datetime.datetime.now().isoformat()
         self._user_id = user_id
         self._result = result
-        self._type = type
+        self._prediction_type = prediction_type
 
     def get_prediction_id(self):
         return self._prediction_id
 
     def get_user_id(self):
-        return f"{self._user_id}"
+        return self._user_id
 
     def get_result(self):
-        return f"{self._result}"
+        return self._result
 
     def get_created(self):
-        return f"{self._created}"
+        return self._created
 
-    def get_type(self):
-        return f"{self._type}"
+    def get_prediction_type(self):
+        return self._prediction_type
 
 
 current_user = User(None, None)
@@ -229,7 +229,7 @@ def predict_classification():
     classification = Prediction(user_id, int(predict[0]), "classification")
     predictions.append(classification)
     return flask.jsonify({"prediction_id": classification.get_prediction_id(),
-                          "type": classification.get_type(),
+                          "prediction_type": classification.get_prediction_type(),
                           "result": classification.get_result(),
                           "user_id": classification.get_user_id()})
 
@@ -250,7 +250,7 @@ def predict_probability():
     probability = Prediction(user_id, round((predict * 100), 2), "probability")
     predictions.append(probability)
     return flask.jsonify({"prediction_id": probability.get_prediction_id(),
-                          "type": probability.get_type(),
+                          "prediction_type": probability.get_prediction_type(),
                           "result": probability.get_result(),
                           "user_id": probability.get_user_id()})
 
@@ -261,7 +261,7 @@ def get_predictions():
     for prediction in predictions:
         predictions_list.append({
             "prediction_id": prediction.get_prediction_id(),
-            "type": prediction.get_type(),
+            "prediction_type": prediction.get_prediction_type(),
             "result": prediction.get_result(),
             "user_id": prediction.get_user_id(),
             "created": prediction.get_created()})
