@@ -160,23 +160,20 @@ def validate_request_parameters(data):
     return errors
 
 
-def get_top_contributors(model, feature_values, feature_names, top_n=3):
-    """
-    Calculate top contributing features to the prediction.
-    Returns list of tuples: (feature_name, importance_value)
-    """
-    if hasattr(model, 'feature_importances_'):
-        # For tree-based models, multiply feature importance by feature value
-        importances = model.feature_importances_
-        contributions = importances * np.abs(feature_values[0])
-
-        # Get indices of top contributors
-        top_indices = np.argsort(contributions)[-top_n:][::-1]
-
-        return [(feature_names[i], round(float(contributions[i]), 4))
-                for i in top_indices]
-    else:
-        return []
+def extract_feature_data(data):
+    features = np.array([[
+        data.get("gen_hlth"),
+        data.get("high_bp"),
+        data.get("bmi"),
+        data.get("high_chol"),
+        data.get("age"),
+        data.get("diff_walk"),
+        data.get("phys_hlth"),
+        data.get("heart_disease_or_attack"),
+        data.get("phys_activity"),
+        data.get("education"),
+        data.get("income")]])
+    return features
 
 # Authenticate
 # Register
@@ -227,18 +224,7 @@ def predict_classification():
     errors = validate_request_parameters(data)
     if len(errors) > 0:
         return flask.jsonify({"errors": errors}), 400
-    features = np.array([[
-        data.get("gen_hlth"),
-        data.get("high_bp"),
-        data.get("bmi"),
-        data.get("high_chol"),
-        data.get("age"),
-        data.get("diff_walk"),
-        data.get("phys_hlth"),
-        data.get("heart_disease_or_attack"),
-        data.get("phys_activity"),
-        data.get("education"),
-        data.get("income")]])
+    features = extract_feature_data(data)
     predict = loaded_model.predict(features)
     classification = Prediction(user_id, int(predict[0]), "classification")
     predictions.append(classification)
@@ -259,19 +245,7 @@ def predict_probability():
     errors = validate_request_parameters(data)
     if len(errors) > 0:
         return flask.jsonify({"errors": errors}), 400
-
-    features = np.array([[
-        data.get("gen_hlth"),
-        data.get("high_bp"),
-        data.get("bmi"),
-        data.get("high_chol"),
-        data.get("age"),
-        data.get("diff_walk"),
-        data.get("phys_hlth"),
-        data.get("heart_disease_or_attack"),
-        data.get("phys_activity"),
-        data.get("education"),
-        data.get("income")]])
+    features = extract_feature_data(data)
     predict = loaded_model.predict_proba(features)[:,1][0]
     probability = Prediction(user_id, round((predict * 100), 2), "probability")
     predictions.append(probability)
